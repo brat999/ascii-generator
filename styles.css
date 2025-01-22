@@ -11,7 +11,7 @@ html, body {                                                                /* h
     max-width: none;
 }
 
-:root {                                                                     /* global variables (aka cutsom properties) */           
+:root {                                                                     /* global variables (aka custom properties) */           
     --black: #000000;
     --white: #e8e8e8;
     --grey: #8a8a8a;
@@ -19,53 +19,67 @@ html, body {                                                                /* h
     --font-size-pfeil: 3.3rem;
     --font-size-titel: 2rem;
     --font-size-untertitel: 1.5rem;
-    --font-size-lauftext: 1rem; /* 1rem = 16px, standart schriftgrösse in browsern */
+    --font-size-lauftext: 1rem; /* 1rem = 16px, standard schriftgröße in browsern */
     --font-size-bildunterschrift: 0.8rem;
 }
 
-a {                                                                         /* links (aka anker tags) */
-    text-decoration: none;
+body {
+    font-family: 'JetBrains Mono regular', monospace;  /* Schriftart für den gesamten Text */
+    line-height: 1.6;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1.title {
+    font-size: var(--font-size-titel);
+    color: var(--blue);
+}
+
+.upload-container {
+    margin-top: 20px;
+}
+
+input[type="file"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid var(--blue);
+    background-color: var(--black);
     color: var(--white);
+    font-size: var(--font-size-lauftext);
 }
 
-img {                                                                       /* bilder */
-    max-width: 100%;
-    height: auto; /* Beibehaltung des Seitenverhältnisses */
-    flex-shrink: 0;
-    flex-wrap: wrap;
-}   
-
-video, iframe {                                                            /* videos */
-    max-width: 100%; /* verhindert, dass das video breiter als der container wird */
-    max-height: 100%; /* verhindert, dass das video höher als 90% der bildschirmhöhe wird */
-    width: auto; /* stellt sicher, dass die proportionen beibehalten werden */
-    height: auto;
-}
-
-.figcaption {                                                                /* bildunterschrift */           
-    justify-content: left; /* verteilt inhalt links und rechts */
-    font-size: var(--font-size-bildunterschrift);
-    font-family: "AUTHENTIC Sans 90";
-    font-style: normal;
+button {
+    padding: 10px 20px;
+    background-color: var(--blue);
+    border: none;
     color: var(--white);
-    padding: 0px 0px 10px 0px;
-    flex-shrink: 0;
-    flex-wrap: wrap;
+    font-size: var(--font-size-lauftext);
+    cursor: pointer;
 }
 
-@font-face {                                                                /* globale variables schriften */
-    font-family: 'JetBrains Mono regular';  /* name der schriftart */
-    src: url('JetBrainsMono-Regular.woff2') format('woff2');
-    font-weight: normal;    /* oder 'bold', falls es ein bold schnitt ist */
-    font-style: normal; /* oder 'italic', falls es ein kursiv schnitt ist */
+button:hover {
+    background-color: var(--grey);
 }
 
-@font-face {
-    font-family: 'AUTHENTIC Sans 90';   /* name der schriftart */
-    src: url('authentic-sans-90.woff2') format('woff2');
-    font-weight: normal;    /* oder 'bold', falls es ein bold schnitt ist */
-    font-style: normal;     /* oder 'italic', falls es ein kursiv schnitt ist */
+#ascii-output {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: 'JetBrains Mono regular', monospace;
+    white-space: pre-wrap;  /* Zeilenumbruch innerhalb der ASCII-Art */
+    word-wrap: break-word;  /* Lange Zeilen umbrechen */
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid var(--blue);
+    font-size: 0.8rem; /* Kleine Schrift für die ASCII-Ausgabe */
+    max-height: 400px;
+    overflow-y: auto;
 }
+
 @media (max-width: 768px) {
     body {
         width: 85%;
@@ -75,26 +89,4 @@ video, iframe {                                                            /* vi
     html, body {
         font-size: 1rem; /* Kleinere Schriftgröße */
     }
-}
-  
-::-webkit-scrollbar {                                                       /* transparente scrollbar */
-    width: 10px;
-    --background-scrollbar: transparent;    /* kein hintergrund */
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--background-scrollbar);    /* keine laufleiste */
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--background-scrollbar);    /* Auch beim Hover nichts sichtbar */
-}
-
-::-webkit-scrollbar-corner {    /* weisses rechteck transparent machen */
-    background: var(--backgroun-scrollbar);     /* hintergrund entfernen */
-}
-
-::selection {                                                               /* farbe makierter text */
-    background-color: var(--blue);
-    color: var(--black);
 }
