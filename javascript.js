@@ -1,5 +1,5 @@
 function generateASCII(event) {
-    event.preventDefault();
+    event.preventDefault();  // Verhindert das Standardverhalten (Formularabsendung)
 
     const fileInput = document.getElementById("image-upload");
     const file = fileInput.files[0];
