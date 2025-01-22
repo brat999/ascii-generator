@@ -1,50 +1,70 @@
-import PIL.Image
+function generateASCII(event) {
+    event.preventDefault();
 
-# ASCII characters used to build the output text
-ASCII_CHARS = ["‹","!","#","Ç","-","_","#","?","“","≠"," "]
+    const fileInput = document.getElementById("image-upload");
+    const file = fileInput.files[0];
 
-# resize image according to a new width
-def resize_image(image, new_width=100):
-    width, height = image.size
-    ratio = height / width 
-    new_height = int(new_width * ratio)
-    resized_image = image.resize((new_width, new_height))
-    return(resized_image)
+    if (!file) {
+        alert("Please select an image.");
+        return;
+    }
 
-# convert each pixel to grayscale
-def grayify(image):
-    grayscale_image = image.convert("L")
-    return(grayscale_image)
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const resizedImage = resizeImage(img, 100);
+            const grayImage = grayify(resizedImage);
+            const asciiImage = pixelsToASCII(grayImage);
 
-# convert pixels to a string of ASCII characters
-def pixels_to_ascii(image):
-    pixels = image.getdata()
-    characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
-    return(characters)
+            // Show the result in the output area
+            document.getElementById("ascii-output").textContent = asciiImage;
 
-def main(new_width=100):
-    # attempt to open image from user-input
-    path = input("enter a valid pathname to an image:\n")
-    try:
-        image = PIL.Image.open(path)
-    except:
-        print(path, "is not a valid pathname to an image.")
-        return  # Damit der Code nicht weiterläuft, wenn das Bild nicht geladen wird
+            // Get selected format
+            const selectedFormat = document.getElementById("format-select").value;
 
-    # convert image to ASCII  
-    new_image_data = pixels_to_ascii(grayify(resize_image(image)))
+            if (selectedFormat === 'txt') {
+                // Create a Blob with the ASCII content for TXT
+                const blob = new Blob([asciiImage], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'ascii_image.txt';  // Filename for download
+                link.click();
+            } else if (selectedFormat === 'png' || selectedFormat === 'jpg') {
+                // Convert ASCII to Image (using canvas for PNG/JPG)
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = resizedImage.width;
+                canvas.height = resizedImage.height;
 
-    # format
-    pixel_count = len(new_image_data)
-    ascii_image = "\n".join(new_image_data[i:(i+new_width)] for i in range(0, pixel_count, new_width))
-    
-    # print result
-    print(ascii_image)
-     
-    # save result to "ascii_image.txt"
-    with open("ascii_image.txt", "w") as f:
-        f.write(ascii_image)
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'white';
+                ctx.font = 'monospace 10px';
 
-# Start the program
-if __name__ == "__main__":
-    main()
+                const lineHeight = 12;
+                let y = 0;
+                for (let i = 0; i < asciiImage.length; i++) {
+                    const char = asciiImage[i];
+                    ctx.fillText(char, 10, y * lineHeight + 10);
+                    if (asciiImage[i] === '\n') {
+                        y++;
+                    }
+                }
+
+                // Convert canvas to image file and download
+                canvas.toBlob(function(blob) {
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'ascii_image.' + selectedFormat;
+                    link.click();
+                }, selectedFormat === 'png' ? 'image/png' : 'image/jpeg');
+            }
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+document.getElementById("image-form").addEventListener("submit", generateASCII);
+
