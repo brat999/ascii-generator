@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASCII Generator 3000</title>
+    <title>ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1 class="title">ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</h1>
-        
-        <!-- File Upload and Format Selection -->
         <div class="upload-container">
             <form id="image-form">
                 <input type="file" id="image-upload" accept="image/*">
@@ -23,21 +21,32 @@
             </form>
         </div>
 
-        <!-- Live Preview Box -->
-        <div id="live-preview-box">
-            <h3>Live Preview:</h3>
-            <pre id="live-preview">Please upload an image to preview the ASCII Art.</pre>
+        <div class="preview-container">
+            <div class="preview-box" id="preview-box"></div>
         </div>
 
-        <!-- Potentiometer Controls -->
-        <div id="potentiometer-controls">
-            <button id="potentiometer1">1</button>
-            <button id="potentiometer2">2</button>
-            <button id="potentiometer3">3</button>
+        <div class="button-grid">
+            <div class="button-row">
+                <button class="pot-button" data-row="1" data-col="1"></button>
+                <button class="pot-button" data-row="1" data-col="2"></button>
+                <button class="pot-button" data-row="1" data-col="3"></button>
+                <button class="pot-button" data-row="1" data-col="4"></button>
+            </div>
+            <div class="button-row">
+                <button class="pot-button" data-row="2" data-col="1"></button>
+                <button class="pot-button" data-row="2" data-col="2"></button>
+                <button class="pot-button" data-row="2" data-col="3"></button>
+                <button class="pot-button" data-row="2" data-col="4"></button>
+            </div>
+            <div class="button-row">
+                <button class="pot-button" data-row="3" data-col="1"></button>
+                <button class="pot-button" data-row="3" data-col="2"></button>
+                <button class="pot-button" data-row="3" data-col="3"></button>
+                <button class="pot-button" data-row="3" data-col="4"></button>
+            </div>
         </div>
 
-        <!-- Download Button -->
-        <a id="download-button" style="display:none;">Download ASCII Art</a>
+        <button id="download-button">Download</button>
     </div>
 
     <script src="script.js"></script>
