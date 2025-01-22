@@ -1,128 +1,81 @@
-document.getElementById('generate-button').addEventListener('click', function(event) {
-    event.preventDefault();
+document.getElementById('image-upload').addEventListener('change', handleImageUpload);
+document.getElementById('generate-button').addEventListener('click', handleGenerate);
+document.getElementById('potentiometer1').addEventListener('click', handlePotentiometer1);
+document.getElementById('potentiometer2').addEventListener('click', handlePotentiometer2);
+document.getElementById('potentiometer3').addEventListener('click', handlePotentiometer3);
 
-    // Lade das Bild
-    const fileInput = document.getElementById('image-upload');
-    const file = fileInput.files[0];
-    if (!file) {
-        alert('Bitte eine Datei auswählen!');
-        return;
+let originalAsciiArt = '';
+let modifiedAsciiArt = '';
+let potentiometer1Value = '1'; // Default value for potentiometer 1
+let potentiometer2Value = '2'; // Default value for potentiometer 2
+let potentiometer3Value = '3'; // Default value for potentiometer 3
+
+// Handle Image Upload
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageUrl = e.target.result;
+            convertImageToAscii(imageUrl);
+        };
+        reader.readAsDataURL(file);
     }
-
-    // Hole das ausgewählte Format
-    const format = document.getElementById('format-select').value;
-
-    // Lese die Bilddatei als DataURL
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const imageUrl = e.target.result;
-        
-        // Generiere das ASCII-Bild
-        generateAsciiArt(imageUrl, format);
-    };
-    reader.readAsDataURL(file);
-});
-
-function generateAsciiArt(imageUrl, format) {
-    // Erstelle ein Canvas-Element
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    const img = new Image();
-    img.onload = function() {
-        // Setze die Canvas-Größe
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        // Zeichne das Bild auf das Canvas
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        
-        // Holen Sie sich die Bilddaten (Pixelwerte)
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const pixels = imageData.data;
-
-        // Wandeln Sie das Bild in ASCII um
-        let asciiArt = '';
-        for (let i = 0; i < pixels.length; i += 4) {
-            const r = pixels[i];
-            const g = pixels[i + 1];
-            const b = pixels[i + 2];
-
-            // Berechne die Helligkeit des Pixels
-            const brightness = (r + g + b) / 3;
-            const asciiChar = getAsciiChar(brightness);
-            asciiArt += asciiChar;
-
-            // Wenn wir das Ende einer Zeile erreicht haben, fügen wir einen Zeilenumbruch hinzu
-            if ((i / 4 + 1) % canvas.width === 0) {
-                asciiArt += '\n';
-            }
-        }
-
-        // Zeige die ASCII-Art in der Live-Vorschau an
-        document.getElementById('ascii-output').textContent = asciiArt;
-
-        // Aktualisiere die Live-Vorschau mit Potentiometer-Anpassungen
-        updateLivePreview(asciiArt);
-
-        // Erstelle den Download-Link
-        const downloadLink = document.createElement('a');
-        downloadLink.download = 'ascii_art.' + format;
-        
-        if (format === 'txt') {
-            const blob = new Blob([asciiArt], { type: 'text/plain' });
-            downloadLink.href = URL.createObjectURL(blob);
-        } else if (format === 'png' || format === 'jpg') {
-            canvas.toBlob(function(blob) {
-                downloadLink.href = URL.createObjectURL(blob);
-            }, 'image/' + format);
-        }
-
-        // Füge den Download-Link auf der Seite hinzu
-        const downloadLinkContainer = document.getElementById('download-link-container');
-        downloadLinkContainer.innerHTML = ''; // Leere den alten Link
-        downloadLinkContainer.appendChild(downloadLink);
-        downloadLink.textContent = 'Klicke hier, um dein Bild herunterzuladen';
-    };
-
-    img.src = imageUrl;
 }
 
-// Funktion zur Bestimmung des ASCII-Zeichens basierend auf der Helligkeit
-function getAsciiChar(brightness) {
-    const asciiChars = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.'];
-    const index = Math.floor((brightness / 255) * (asciiChars.length - 1));
-    return asciiChars[index];
+// Convert image to ASCII Art
+function convertImageToAscii(imageUrl) {
+    // Placeholder ASCII art generation (this would be replaced with actual logic)
+    originalAsciiArt = '######\n#    #\n#    #\n######';
+    modifiedAsciiArt = originalAsciiArt;
+
+    // Show ASCII Art in the live preview box
+    updateLivePreview(modifiedAsciiArt);
+
+    // Show the download button once ASCII Art is ready
+    document.getElementById('download-button').style.display = 'inline-block';
 }
 
-// Live-Vorschau Funktion (Potentiometer-Anpassungen)
+// Update Live Preview
 function updateLivePreview(asciiArt) {
-    let adjustedAscii = asciiArt;
-    // Beispiel für das Anpassen der Zeichen mit Potentiometer
-    // Hier können Werte für verschiedene Potentiometer eingestellt werden
-    const potentiometerValues = getPotentiometerValues();
-
-    adjustedAscii = adjustedAscii.replace(/[S#@%?*+;:,.]/g, function(match) {
-        return potentiometerValues[0] + match + potentiometerValues[1] + match + potentiometerValues[2];
-    });
-
-    // Zeige die angepasste ASCII-Art in der Vorschau an
-    document.getElementById('live-preview').textContent = adjustedAscii;
+    document.getElementById('live-preview').textContent = asciiArt;
 }
 
-// Funktion zum Abrufen der potentiometer Werte
-function getPotentiometerValues() {
-    const potentiometer1 = document.getElementById('potentiometer1').value;
-    const potentiometer2 = document.getElementById('potentiometer2').value;
-    const potentiometer3 = document.getElementById('potentiometer3').value;
-
-    return [potentiometer1, potentiometer2, potentiometer3];
+// Handle Generate Button Click
+function handleGenerate(event) {
+    event.preventDefault();
+    
+    // Get the file format selected by the user
+    const format = document.getElementById('format-select').value;
+    
+    // Convert ASCII art to the selected file format
+    const blob = new Blob([modifiedAsciiArt], { type: `text/${format}` });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `ascii-art.${format}`;
+    link.click();
 }
 
-// Potentiometer EventListener
-document.querySelectorAll('.potentiometer-button').forEach(function(button) {
-    button.addEventListener('click', function() {
-        // Potentiometer Werte aktualisieren und Vorschau anpassen
-        updateLivePreview(document.getElementById('ascii-output').textContent);
-    });
-});
+// Handle Potentiometer 1 Button Click
+function handlePotentiometer1() {
+    // Modify ASCII Art based on potentiometer 1 value
+    potentiometer1Value = (parseInt(potentiometer1Value) % 3 + 1).toString();
+    modifiedAsciiArt = originalAsciiArt.replace(/#/g, potentiometer1Value);
+    updateLivePreview(modifiedAsciiArt);
+}
+
+// Handle Potentiometer 2 Button Click
+function handlePotentiometer2() {
+    // Modify ASCII Art based on potentiometer 2 value
+    potentiometer2Value = (parseInt(potentiometer2Value) % 3 + 1).toString();
+    modifiedAsciiArt = originalAsciiArt.replace(/#/g, potentiometer2Value);
+    updateLivePreview(modifiedAsciiArt);
+}
+
+// Handle Potentiometer 3 Button Click
+function handlePotentiometer3() {
+    // Modify ASCII Art based on potentiometer 3 value
+    potentiometer3Value = (parseInt(potentiometer3Value) % 3 + 1).toString();
+    modifiedAsciiArt = originalAsciiArt.replace(/#/g, potentiometer3Value);
+    updateLivePreview(modifiedAsciiArt);
+}
