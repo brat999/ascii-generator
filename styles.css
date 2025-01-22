@@ -1,103 +1,84 @@
-/* Basic Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body Style */
 body {
-    font-family: "Courier New", Courier, monospace;
-    background-color: #1c1c1c;
-    color: #fff;
-    padding: 20px;
-}
-
-/* Container to center everything */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     text-align: center;
 }
 
-/* Title Style */
-.title {
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+}
+
+h1 {
     font-size: 2rem;
     margin-bottom: 20px;
-    font-weight: bold;
-    color: #ff6347; /* Tomato color */
 }
 
-/* Upload Section */
-.upload-container {
+form {
     margin-bottom: 20px;
 }
 
-#image-upload {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    border: 1px solid #fff;
-    margin-right: 10px;
-    border-radius: 5px;
-}
-
-#format-select {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    border: 1px solid #fff;
-    margin-left: 10px;
-    border-radius: 5px;
-}
-
-#generate-button {
-    background-color: #ff6347;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#generate-button:hover {
-    background-color: #ff4500; /* Darker tomato */
-}
-
-/* Preview Section */
-.preview-container {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #222;
-    border-radius: 10px;
-    overflow-x: auto; /* Ensure horizontal scroll for large ASCII images */
-    white-space: pre; /* Keep line breaks in ASCII */
-    font-family: monospace;
-    font-size: 10px;
-}
-
-/* Download Button */
-#download-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 20px;
-    border-radius: 5px;
-    cursor: pointer;
+label {
+    display: block;
+    margin: 10px 0 5px;
     font-size: 1rem;
 }
 
-#download-button:hover {
-    background-color: #45a049; /* Darker green */
-}
-
-/* Add some spacing */
-button {
-    margin-top: 10px;
-}
-
 input[type="file"] {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+select {
+    padding: 10px;
+    font-size: 1rem;
     margin-top: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#preview-box {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    font-family: monospace, "Courier New", Courier, sans-serif;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 300px;
+    overflow-y: scroll;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
 }
