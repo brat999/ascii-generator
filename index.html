@@ -9,8 +9,8 @@
 <body>
     <div class="container">
         <h1 class="title">ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</h1>
-
-        <!-- Datei Upload -->
+        
+        <!-- File Upload and Format Selection -->
         <div class="upload-container">
             <form id="image-form">
                 <input type="file" id="image-upload" accept="image/*">
@@ -19,35 +19,25 @@
                     <option value="png">.png</option>
                     <option value="jpg">.jpg</option>
                 </select>
-                <button type="submit" id="generate-button">Generieren</button>
+                <button type="submit" id="generate-button">Generate</button>
             </form>
         </div>
 
-        <!-- Live-Vorschau -->
-        <div class="preview-container">
-            <h2>Live Vorschau</h2>
-            <div id="live-preview" class="preview-box">
-                <pre>ASCII-Art erscheint hier</pre>
-            </div>
+        <!-- Live Preview Box -->
+        <div id="live-preview-box">
+            <h3>Live Preview:</h3>
+            <pre id="live-preview">Please upload an image to preview the ASCII Art.</pre>
         </div>
 
-        <!-- Potentiometer -->
-        <div class="potentiometer-container">
-            <h3>Potentiometer</h3>
-            <div class="potentiometers">
-                <button class="potentiometer-button" id="potentiometer1">1</button>
-                <button class="potentiometer-button" id="potentiometer2">2</button>
-                <button class="potentiometer-button" id="potentiometer3">3</button>
-            </div>
+        <!-- Potentiometer Controls -->
+        <div id="potentiometer-controls">
+            <button id="potentiometer1">1</button>
+            <button id="potentiometer2">2</button>
+            <button id="potentiometer3">3</button>
         </div>
 
-        <!-- Download-Link und Button -->
-        <div id="download-link-container">
-            <button id="download-button" style="display:none;">Download ASCII-Datei</button>
-        </div>
-
-        <!-- ASCII Output (für die Live-Vorschau und das Generierte Bild) -->
-        <pre id="ascii-output" style="display:none;"></pre>
+        <!-- Download Button -->
+        <a id="download-button" style="display:none;">Download ASCII Art</a>
     </div>
 
     <script src="script.js"></script>
