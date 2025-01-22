@@ -1,120 +1,103 @@
-/* Grundlayout */
-body {
-    font-family: 'Arial', sans-serif;
+/* Basic Reset */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #333;
+    box-sizing: border-box;
 }
 
-/* Container */
-.container {
-    width: 80%;
-    max-width: 1000px;
-    background-color: #fff;
+/* Body Style */
+body {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #1c1c1c;
+    color: #fff;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
-/* Titel */
-.title {
+/* Container to center everything */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
     text-align: center;
+}
+
+/* Title Style */
+.title {
     font-size: 2rem;
     margin-bottom: 20px;
+    font-weight: bold;
+    color: #ff6347; /* Tomato color */
 }
 
-/* Upload-Bereich */
+/* Upload Section */
 .upload-container {
-    display: flex;
-    justify-content: center;
     margin-bottom: 20px;
 }
 
-.upload-container input[type="file"] {
-    padding: 8px;
-    margin-right: 10px;
-}
-
-.upload-container select {
-    padding: 8px;
-    margin-right: 10px;
-}
-
-.upload-container button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.upload-container button:hover {
-    background-color: #45a049;
-}
-
-/* Vorschau der ASCII-Darstellung */
-.preview-container {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.preview-box {
-    font-family: monospace;
-    white-space: pre;
-    word-wrap: break-word;
-    font-size: 12px;
-    max-height: 400px;
-    overflow-y: auto;
-    background-color: #2d2d2d;
+#image-upload {
+    background-color: #333;
     color: #fff;
-    padding: 15px;
-    border-radius: 6px;
+    padding: 10px;
+    border: 1px solid #fff;
+    margin-right: 10px;
+    border-radius: 5px;
 }
 
-/* Button-Grid */
-.button-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin: 20px 0;
+#format-select {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: 1px solid #fff;
+    margin-left: 10px;
+    border-radius: 5px;
 }
 
-.button-row {
-    display: flex;
-    justify-content: space-between;
-}
-
-.pot-button {
-    padding: 20px;
-    background-color: #ddd;
+#generate-button {
+    background-color: #ff6347;
+    color: #fff;
     border: none;
-    border-radius: 4px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.pot-button:hover {
-    background-color: #ccc;
+#generate-button:hover {
+    background-color: #ff4500; /* Darker tomato */
+}
+
+/* Preview Section */
+.preview-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #222;
+    border-radius: 10px;
+    overflow-x: auto; /* Ensure horizontal scroll for large ASCII images */
+    white-space: pre; /* Keep line breaks in ASCII */
+    font-family: monospace;
+    font-size: 10px;
 }
 
 /* Download Button */
 #download-button {
-    padding: 10px 20px;
-    background-color: #2196F3;
+    background-color: #4CAF50;
     color: white;
     border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
     cursor: pointer;
-    border-radius: 4px;
-    display: block;
-    margin: 20px auto;
+    font-size: 1rem;
 }
 
 #download-button:hover {
-    background-color: #0b7dda;
+    background-color: #45a049; /* Darker green */
+}
+
+/* Add some spacing */
+button {
+    margin-top: 10px;
+}
+
+input[type="file"] {
+    margin-top: 10px;
 }
