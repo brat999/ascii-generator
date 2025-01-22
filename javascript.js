@@ -1,104 +1,107 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const imageForm = document.getElementById('image-form');
-    const imageUpload = document.getElementById('image-upload');
-    const formatSelect = document.getElementById('format-select');
-    const generateButton = document.getElementById('generate-button');
-    const previewBox = document.getElementById('preview-box');
-    const downloadButton = document.getElementById('download-button');
+// Global variables
+const imageUpload = document.getElementById("image-upload");
+const previewBox = document.getElementById("preview-box");
+const generateButton = document.getElementById("generate-button");
+const downloadButton = document.getElementById("download-button");
+const formatSelect = document.getElementById("format-select");
 
-    const asciiCharacters = ['@', '#', '8', '&', '%', '$', '+', '=', '-', ':', '.', ' ']; // ASCII-Zeichen für Graustufen
+const ASCII_CHARS = ["‹", "!", "#", "Ç", "-", "_", "#", "?", "“", "≠", " "];
 
-    // Graustufen-Umwandlung und ASCII-Art-Erstellung
-    function convertImageToASCII(image) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const width = image.width;
-        const height = image.height;
-        
-        // Skalieren des Bildes für eine bessere ASCII-Darstellung
-        const maxWidth = 100; // Maximale Breite für die ASCII-Darstellung
-        const scale = maxWidth / width;
-        const newWidth = maxWidth;
-        const newHeight = height * scale;
-        
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+// Resize image according to a new width while maintaining aspect ratio
+function resizeImage(image, newWidth = 100) {
+    const ratio = image.height / image.width;
+    const newHeight = Math.round(newWidth * ratio);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+    ctx.drawImage(image, 0, 0, newWidth, newHeight);
+    return canvas;
+}
 
-        ctx.drawImage(image, 0, 0, newWidth, newHeight);
+// Convert image to grayscale
+function grayify(image) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+    const imageData = ctx.getImageData(0, 0, image.width, image.height);
+    const data = imageData.data;
 
-        const imageData = ctx.getImageData(0, 0, newWidth, newHeight);
-        const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const avg = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2]; // RGB to grayscale
+        data[i] = data[i + 1] = data[i + 2] = avg; // Set red, green, blue to the grayscale value
+    }
+    ctx.putImageData(imageData, 0, 0);
+    return canvas;
+}
 
-        let asciiArt = '';
-        for (let y = 0; y < newHeight; y++) {
-            for (let x = 0; x < newWidth; x++) {
-                const i = (y * newWidth + x) * 4;
-                const r = data[i];
-                const g = data[i + 1];
-                const b = data[i + 2];
+// Convert grayscale pixels to ASCII characters
+function pixelsToASCII(image) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
 
-                // Berechnung des Grauwerts
-                const gray = Math.floor(0.3 * r + 0.59 * g + 0.11 * b);
-                
-                // ASCII-Zeichen anhand des Grauwerts auswählen
-                const char = asciiCharacters[Math.floor((gray / 255) * (asciiCharacters.length - 1))];
-                
-                asciiArt += char;
-            }
-            asciiArt += '\n';
+    const imageData = ctx.getImageData(0, 0, image.width, image.height);
+    const pixels = imageData.data;
+    let asciiImage = "";
+
+    for (let i = 0; i < pixels.length; i += 4) {
+        const brightness = Math.floor((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+        const asciiChar = ASCII_CHARS[Math.floor(brightness / 25)];
+        asciiImage += asciiChar;
+
+        if ((i / 4 + 1) % image.width === 0) {
+            asciiImage += "\n";
         }
-
-        return asciiArt;
     }
 
-    // Event-Listener für das Formular
-    imageForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        
-        const file = imageUpload.files[0];
-        const format = formatSelect.value;
+    return asciiImage;
+}
 
-        if (file) {
-            const reader = new FileReader();
+// Handle image upload and generate ASCII art
+function handleImageUpload(event) {
+    event.preventDefault();
 
-            reader.onload = () => {
-                const img = new Image();
-                img.src = reader.result;
-                img.onload = () => {
-                    const asciiArt = convertImageToASCII(img);
-                    previewBox.textContent = asciiArt; // Zeigt das ASCII-Bild in der Vorschau
-                };
-            };
+    const file = imageUpload.files[0];
+    if (!file) return;
 
-            reader.readAsDataURL(file);
-        } else {
-            alert('Bitte ein Bild auswählen!');
-        }
-    });
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = function () {
+            const resizedImage = resizeImage(image, 100);
+            const grayImage = grayify(resizedImage);
+            const asciiArt = pixelsToASCII(grayImage);
+            previewBox.textContent = asciiArt; // Display the ASCII art
+        };
+    };
+    reader.readAsDataURL(file);
+}
 
-    // Event-Listener für das Downloaden der ASCII-Datei
-    downloadButton.addEventListener('click', () => {
-        const asciiArt = previewBox.textContent;
-        const format = formatSelect.value;
-        const fileName = 'ascii_output.' + format;
+// Download the generated ASCII art
+function downloadASCII() {
+    if (!previewBox.textContent) return;
 
-        const blob = new Blob([asciiArt], { type: 'text/plain' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-    });
+    const asciiArt = previewBox.textContent;
+    const format = formatSelect.value;
+    let blob;
 
-    // Optional: Button-Interaktionen für die Manipulation der ASCII-Zeichen
-    const potButtons = document.querySelectorAll('.pot-button');
-    potButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const row = button.getAttribute('data-row');
-            const col = button.getAttribute('data-col');
-            console.log(`Button in Reihe ${row}, Spalte ${col} wurde geklickt`);
+    if (format === "txt") {
+        blob = new Blob([asciiArt], { type: "text/plain" });
+    }
 
-            // Hier könntest du die Logik hinzufügen, um die ASCII-Zeichen zu manipulieren
-            // z.B. Indizes in einer Matrix ändern, basierend auf den Button-Klicks
-        });
-    });
-});
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "ascii_art." + format;
+    link.click();
+}
+
+// Event listeners
+document.getElementById("image-form").addEventListener("submit", handleImageUpload);
+downloadButton.addEventListener("click", downloadASCII);
+generateButton.addEventListener("click", handleImageUpload);
