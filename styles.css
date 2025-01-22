@@ -94,18 +94,32 @@
     background: linear-gradient(to right, #7B68EE, #8A2BE2);
 }
 
-/* Download-Link */
+/* Download-Link und Button */
 #download-link-container {
     margin-top: 20px;
 }
 
-#download-link-container a {
+#download-button {
     font-size: 1.2rem;
     color: #4A90E2;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-block;
     text-decoration: none;
-    font-weight: bold;
 }
 
-#download-link-container a:hover {
-    text-decoration: underline;
+#download-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Entfernen des Rahmens um den Body (z.B. Blue Outline) */
+input, button, select {
+    outline: none;
+}
+
+input:focus, button:focus, select:focus {
+    outline: none;
 }
