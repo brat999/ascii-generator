@@ -1,30 +1,23 @@
-html, body {                                                                /* html & body properties */   
-    margin: 0;                     
-    padding: 0;                     
-    height: 100%;   /* body nimmt die gesammte höhe ein */
-    width: 100%;    /* body nimmt die gesammte breite ein */
-    user-select: text;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
     background-color: var(--black);
-    color: var(--white);    /* schriftfarbe */
-    overflow-y: auto;   /* aktiviert vertikales scrollen nur bei bedarf */
-    overflow-x: hidden; /* verhindert horizontales scrollen */
-    max-width: none;
+    color: var(--white);
+    font-family: 'JetBrains Mono regular', monospace;
+    overflow-x: hidden;
 }
 
-:root {                                                                     /* global variables (aka custom properties) */           
+:root {
     --black: #000000;
     --white: #e8e8e8;
-    --grey: #8a8a8a;
     --blue: #3300ff;
-    --font-size-pfeil: 3.3rem;
     --font-size-titel: 2rem;
-    --font-size-untertitel: 1.5rem;
-    --font-size-lauftext: 1rem; /* 1rem = 16px, standard schriftgröße in browsern */
-    --font-size-bildunterschrift: 0.8rem;
+    --font-size-lauftext: 1rem;
 }
 
 body {
-    font-family: 'JetBrains Mono regular', monospace;  /* Schriftart für den gesamten Text */
     line-height: 1.6;
 }
 
@@ -44,7 +37,7 @@ h1.title {
     margin-top: 20px;
 }
 
-input[type="file"], select {
+input[type="file"], select, button {
     padding: 10px;
     margin: 10px 0;
     border: 2px solid var(--blue);
@@ -53,40 +46,43 @@ input[type="file"], select {
     font-size: var(--font-size-lauftext);
 }
 
-button {
-    padding: 10px 20px;
-    background-color: var(--blue);
-    border: none;
-    color: var(--white);
-    font-size: var(--font-size-lauftext);
-    cursor: pointer;
-}
-
 button:hover {
     background-color: var(--grey);
+}
+
+#live-preview {
+    font-family: 'JetBrains Mono regular', monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 0.8rem;
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid var(--blue);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.potentiometers {
+    margin-top: 20px;
+}
+
+.potentiometers input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
 }
 
 #ascii-output {
     background-color: var(--black);
     color: var(--white);
     font-family: 'JetBrains Mono regular', monospace;
-    white-space: pre-wrap;  /* Zeilenumbruch innerhalb der ASCII-Art */
-    word-wrap: break-word;  /* Lange Zeilen umbrechen */
+    white-space: pre-wrap;
+    word-wrap: break-word;
     margin-top: 20px;
     padding: 10px;
     border: 2px solid var(--blue);
-    font-size: 0.8rem; /* Kleine Schrift für die ASCII-Ausgabe */
+    font-size: 0.8rem;
     max-height: 400px;
     overflow-y: auto;
-}
-
-@media (max-width: 768px) {
-    body {
-        width: 85%;
-        padding: 0; /* Reduziert überflüssige Abstände */
-    }
-
-    html, body {
-        font-size: 1rem; /* Kleinere Schriftgröße */
-    }
 }
