@@ -1,113 +1,128 @@
-function generateASCII(event) {
+document.getElementById('generate-button').addEventListener('click', function(event) {
     event.preventDefault();
 
-    const fileInput = document.getElementById("image-upload");
+    // Lade das Bild
+    const fileInput = document.getElementById('image-upload');
     const file = fileInput.files[0];
-
     if (!file) {
-        alert("Please select an image.");
+        alert('Bitte eine Datei auswählen!');
         return;
     }
 
+    // Hole das ausgewählte Format
+    const format = document.getElementById('format-select').value;
+
+    // Lese die Bilddatei als DataURL
     const reader = new FileReader();
-    reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            const resizedImage = resizeImage(img, 100);
-            const grayImage = grayify(resizedImage);
-            const asciiImage = pixelsToASCII(grayImage);
-
-            document.getElementById("ascii-output").textContent = asciiImage;
-            document.getElementById("live-preview").textContent = asciiImage;
-
-            const selectedFormat = document.getElementById("format-select").value;
-
-            if (selectedFormat === 'txt') {
-                // Generate text file for download
-                const blob = new Blob([asciiImage], { type: 'text/plain' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'ascii_image.txt';
-                document.getElementById("download-link-container").style.display = "block";
-                document.getElementById("download-link").href = link.href;
-            } else if (selectedFormat === 'png' || selectedFormat === 'jpg') {
-                // Generate image file for download
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = resizedImage.width * 10;
-                canvas.height = resizedImage.height * 12;
-
-                ctx.fillStyle = 'black';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = 'monospace 10px';
-
-                const lineHeight = 12;
-                let y = 0;
-                let x = 0;
-                for (let i = 0; i < asciiImage.length; i++) {
-                    const char = asciiImage[i];
-                    if (char === '\n') {
-                        y++;
-                        x = 0;
-                    } else {
-                        ctx.fillText(char, x * 10, y * lineHeight + 10);
-                        x++;
-                    }
-                }
-
-                canvas.toBlob(function(blob) {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = 'ascii_image.' + selectedFormat;
-                    document.getElementById("download-link-container").style.display = "block";
-                    document.getElementById("download-link").href = link.href;
-                }, selectedFormat === 'png' ? 'image/png' : 'image/jpeg');
-            }
-        };
-        img.src = event.target.result;
+    reader.onload = function(e) {
+        const imageUrl = e.target.result;
+        
+        // Generiere das ASCII-Bild
+        generateAsciiArt(imageUrl, format);
     };
     reader.readAsDataURL(file);
-}
+});
 
-document.getElementById("image-form").addEventListener("submit", generateASCII);
-
-function resizeImage(image, maxWidth) {
+function generateAsciiArt(imageUrl, format) {
+    // Erstelle ein Canvas-Element
     const canvas = document.createElement('canvas');
-    const ratio = maxWidth / image.width;
-    canvas.width = maxWidth;
-    canvas.height = image.height * ratio;
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    return canvas;
-}
+    
+    const img = new Image();
+    img.onload = function() {
+        // Setze die Canvas-Größe
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-function grayify(image) {
-    const ctx = image.getContext('2d');
-    const data = ctx.getImageData(0, 0, image.width, image.height);
-    for (let i = 0; i < data.data.length; i += 4) {
-        const gray = 0.3 * data.data[i] + 0.59 * data.data[i + 1] + 0.11 * data.data[i + 2];
-        data.data[i] = data.data[i + 1] = data.data[i + 2] = gray;
-    }
-    ctx.putImageData(data, 0, 0);
-    return image;
-}
+        // Zeichne das Bild auf das Canvas
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        
+        // Holen Sie sich die Bilddaten (Pixelwerte)
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const pixels = imageData.data;
 
-function pixelsToASCII(image) {
-    const ctx = image.getContext('2d');
-    const data = ctx.getImageData(0, 0, image.width, image.height);
-    const asciiImage = [];
-    const characters = ['@', '%', '#', '*', '+', '=', '-', ':', '.', ' '];
-    const width = image.width;
+        // Wandeln Sie das Bild in ASCII um
+        let asciiArt = '';
+        for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i];
+            const g = pixels[i + 1];
+            const b = pixels[i + 2];
 
-    for (let i = 0; i < data.data.length; i += 4) {
-        const brightness = (0.3 * data.data[i] + 0.59 * data.data[i + 1] + 0.11 * data.data[i + 2]) / 255;
-        const char = characters[Math.floor(brightness * (characters.length - 1))];
-        if (i / 4 % width === 0 && i > 0) {
-            asciiImage.push('\n');
+            // Berechne die Helligkeit des Pixels
+            const brightness = (r + g + b) / 3;
+            const asciiChar = getAsciiChar(brightness);
+            asciiArt += asciiChar;
+
+            // Wenn wir das Ende einer Zeile erreicht haben, fügen wir einen Zeilenumbruch hinzu
+            if ((i / 4 + 1) % canvas.width === 0) {
+                asciiArt += '\n';
+            }
         }
-        asciiImage.push(char);
-    }
 
-    return asciiImage.join('');
+        // Zeige die ASCII-Art in der Live-Vorschau an
+        document.getElementById('ascii-output').textContent = asciiArt;
+
+        // Aktualisiere die Live-Vorschau mit Potentiometer-Anpassungen
+        updateLivePreview(asciiArt);
+
+        // Erstelle den Download-Link
+        const downloadLink = document.createElement('a');
+        downloadLink.download = 'ascii_art.' + format;
+        
+        if (format === 'txt') {
+            const blob = new Blob([asciiArt], { type: 'text/plain' });
+            downloadLink.href = URL.createObjectURL(blob);
+        } else if (format === 'png' || format === 'jpg') {
+            canvas.toBlob(function(blob) {
+                downloadLink.href = URL.createObjectURL(blob);
+            }, 'image/' + format);
+        }
+
+        // Füge den Download-Link auf der Seite hinzu
+        const downloadLinkContainer = document.getElementById('download-link-container');
+        downloadLinkContainer.innerHTML = ''; // Leere den alten Link
+        downloadLinkContainer.appendChild(downloadLink);
+        downloadLink.textContent = 'Klicke hier, um dein Bild herunterzuladen';
+    };
+
+    img.src = imageUrl;
 }
+
+// Funktion zur Bestimmung des ASCII-Zeichens basierend auf der Helligkeit
+function getAsciiChar(brightness) {
+    const asciiChars = ['@', '#', 'S', '%', '?', '*', '+', ';', ':', ',', '.'];
+    const index = Math.floor((brightness / 255) * (asciiChars.length - 1));
+    return asciiChars[index];
+}
+
+// Live-Vorschau Funktion (Potentiometer-Anpassungen)
+function updateLivePreview(asciiArt) {
+    let adjustedAscii = asciiArt;
+    // Beispiel für das Anpassen der Zeichen mit Potentiometer
+    // Hier können Werte für verschiedene Potentiometer eingestellt werden
+    const potentiometerValues = getPotentiometerValues();
+
+    adjustedAscii = adjustedAscii.replace(/[S#@%?*+;:,.]/g, function(match) {
+        return potentiometerValues[0] + match + potentiometerValues[1] + match + potentiometerValues[2];
+    });
+
+    // Zeige die angepasste ASCII-Art in der Vorschau an
+    document.getElementById('live-preview').textContent = adjustedAscii;
+}
+
+// Funktion zum Abrufen der potentiometer Werte
+function getPotentiometerValues() {
+    const potentiometer1 = document.getElementById('potentiometer1').value;
+    const potentiometer2 = document.getElementById('potentiometer2').value;
+    const potentiometer3 = document.getElementById('potentiometer3').value;
+
+    return [potentiometer1, potentiometer2, potentiometer3];
+}
+
+// Potentiometer EventListener
+document.querySelectorAll('.potentiometer-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+        // Potentiometer Werte aktualisieren und Vorschau anpassen
+        updateLivePreview(document.getElementById('ascii-output').textContent);
+    });
+});
