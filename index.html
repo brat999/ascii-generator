@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</title>
+    <title>ASCII Art Generator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="title">ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</h1>
-        <div class="upload-container">
-            <form id="image-form">
-                <input type="file" id="image-upload" accept="image/*">
-                <select id="format-select">
-                    <option value="txt">.txt</option>
-                    <option value="png">.png</option>
-                    <option value="jpg">.jpg</option>
-                </select>
-                <button type="submit" id="generate-button">Generate</button>
-            </form>
+        <h1>ASCII Art Generator</h1>
+
+        <!-- Bild-Upload-Formular -->
+        <form id="image-form">
+            <label for="image-upload">Wähle ein Bild:</label>
+            <input type="file" id="image-upload" accept="image/*" required>
+
+            <label for="format-select">Wähle das Format:</label>
+            <select id="format-select">
+                <option value="txt">Text (.txt)</option>
+                <!-- Weitere Formate können hier hinzugefügt werden -->
+            </select>
+
+            <button type="submit">Bild hochladen</button>
+        </form>
+
+        <!-- ASCII-Art-Vorschau -->
+        <div id="preview-box" class="preview-box">
+            <!-- Hier wird die ASCII-Art-Vorschau angezeigt -->
         </div>
 
-        <div class="preview-container">
-            <div class="preview-box" id="preview-box"></div>
-        </div>
-
-        <button id="download-button">Download</button>
+        <!-- Download-Button -->
+        <button id="download-button" class="hidden">Download ASCII-Art</button>
     </div>
 
     <script src="script.js"></script>
