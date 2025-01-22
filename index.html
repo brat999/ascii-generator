@@ -23,15 +23,11 @@
 
         <div class="preview-container">
             <h2>Live Preview</h2>
-            <div id="live-preview"></div>
-            <div class="potentiometers">
-                <label for="potentiometer-1">Adjust Characters 1-3:</label>
-                <input type="range" id="potentiometer-1" min="0" max="10" value="0">
-                <label for="potentiometer-2">Adjust Characters 4-6:</label>
-                <input type="range" id="potentiometer-2" min="0" max="10" value="0">
-                <label for="potentiometer-3">Adjust Characters 7-9:</label>
-                <input type="range" id="potentiometer-3" min="0" max="10" value="0">
-            </div>
+            <div id="live-preview" class="live-preview-screen"></div>
+        </div>
+
+        <div id="download-link-container" style="display: none;">
+            <a id="download-link" href="#" download>Download ASCII Image</a>
         </div>
 
         <pre id="ascii-output"></pre>
