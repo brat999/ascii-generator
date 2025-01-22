@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ascii generator 3000</title>
-	<link rel="stylesheet" href="asciigenerator.css"> <!--css zuerst-->
-	<script src="script.js" defer></script> <!--js als zweites, defer um das file erst nach dem css file zu laden-->
+    <link rel="stylesheet" href="style.css">  <!-- Dein CSS -->
 </head>
 <body>
-	<main>
-		<nav>	<!--navigation-->
-			<div>navigation
-			</div>
-		</nav>
-		<div>content
-		</div>
-	</main>
+    <div class="container">
+        <h1>ascii generator 3000</h1>
+        <input type="file" id="imageInput" accept="image/*">
+        <button onclick="generateAscii()">generate</button>
+
+        <h2>hello, welcome to my ascii generator</h2>
+        <pre id="outputArea"></pre>
+    </div>
+
+    <script src="script.js"></script>  <!-- Dein JS -->
 </body>
 </html>
