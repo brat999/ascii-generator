@@ -1,149 +1,120 @@
+/* Grundlayout */
 body {
-    background-color: #000;
-    color: #fff;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
+    height: 100vh;
+    color: #333;
 }
 
-/* Container-Stil */
+/* Container */
 .container {
-    width: 90%;
-    max-width: 1200px;
+    width: 80%;
+    max-width: 1000px;
+    background-color: #fff;
     padding: 20px;
-    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-/* Website-Titel */
+/* Titel */
 .title {
+    text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
 }
 
-/* Upload-Container */
+/* Upload-Bereich */
 .upload-container {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-/* Datei-Upload */
-#image-upload {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #222;
-    border: 1px solid #555;
-    color: #fff;
-    cursor: pointer;
+.upload-container input[type="file"] {
+    padding: 8px;
+    margin-right: 10px;
 }
 
-/* Select-Element */
-#format-select {
-    padding: 10px;
-    margin-left: 10px;
-    background-color: #222;
-    color: #fff;
-    border: 1px solid #555;
+.upload-container select {
+    padding: 8px;
+    margin-right: 10px;
 }
 
-/* Generate-Button */
-#generate-button {
+.upload-container button {
     padding: 10px 20px;
-    margin-left: 10px;
-    background-color: #444;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.upload-container button:hover {
+    background-color: #45a049;
+}
+
+/* Vorschau der ASCII-Darstellung */
+.preview-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.preview-box {
+    font-family: monospace;
+    white-space: pre;
+    word-wrap: break-word;
+    font-size: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #2d2d2d;
     color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 15px;
+    border-radius: 6px;
 }
 
-#generate-button:hover {
-    background-color: #666;
-}
-
-/* Live-Vorschau */
-#preview-container {
-    width: 100%;
-    height: 400px;
-    background-color: #000;
-    border: 2px solid #444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-#preview-container img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-}
-
-/* Buttons für die Steuerung */
-.control-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.control-group {
-    display: flex;
-    justify-content: center;
+/* Button-Grid */
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    margin: 20px 0;
 }
 
-/* Steuerungs-Buttons */
-.control-button {
-    width: 40px;
-    height: 40px;
-    background-color: #555;
-    color: #000;
-    border: none;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.button-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-/* Unterschiedliche Pastellfarben */
-.control-button:nth-child(1) {
-    background-color: #ffadad;
+.pot-button {
+    padding: 20px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.control-button:nth-child(2) {
-    background-color: #ffd6a5;
+.pot-button:hover {
+    background-color: #ccc;
 }
 
-.control-button:nth-child(3) {
-    background-color: #fdffb6;
-}
-
-.control-button:nth-child(4) {
-    background-color: #caffbf;
-}
-
-.control-button:hover {
-    opacity: 0.8;
-}
-
-/* Download-Button */
+/* Download Button */
 #download-button {
     padding: 10px 20px;
-    background-color: #444;
-    color: #fff;
+    background-color: #2196F3;
+    color: white;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
+    border-radius: 4px;
+    display: block;
+    margin: 20px auto;
 }
 
 #download-button:hover {
-    background-color: #666;
+    background-color: #0b7dda;
 }
