@@ -44,7 +44,7 @@ h1.title {
     margin-top: 20px;
 }
 
-input[type="file"] {
+input[type="file"], select {
     padding: 10px;
     margin: 10px 0;
     border: 2px solid var(--blue);
