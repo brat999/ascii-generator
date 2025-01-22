@@ -1,50 +1,67 @@
-import PIL.Image
+const ASCII_CHARS = ["‹", "!", "#", "Ç", "-", "_", "#", "?", "“", "≠", " "];
 
-# ASCII characters used to build the output text
-ASCII_CHARS = ["‹","!","#","Ç","-","_","#","?","“","≠"," "]
+// Resize image according to a new width
+function resizeImage(image, newWidth = 100) {
+    const width = image.width;
+    const height = image.height;
+    const ratio = height / width;
+    const newHeight = Math.round(newWidth * ratio);
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+    context.drawImage(image, 0, 0, newWidth, newHeight);
+    return canvas;
+}
 
-# resize image according to a new width
-def resize_image(image, new_width=100):
-    width, height = image.size
-    ratio = height / width 
-    new_height = int(new_width * ratio)
-    resized_image = image.resize((new_width, new_height))
-    return(resized_image)
+// Convert each pixel to grayscale
+function grayify(imageData) {
+    const data = imageData.data;
+    for (let i = 0; i < data.length; i += 4) {
+        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = data[i + 1] = data[i + 2] = avg; // Red, Green, Blue channels set to average
+    }
+    return imageData;
+}
 
-# convert each pixel to grayscale
-def grayify(image):
-    grayscale_image = image.convert("L")
-    return(grayscale_image)
+// Convert pixels to ASCII characters
+function pixelsToAscii(imageData) {
+    const pixels = imageData.data;
+    let ascii = '';
+    for (let i = 0; i < pixels.length; i += 4) {
+        const pixel = pixels[i]; // Only use the red channel since it's grayscale now
+        ascii += ASCII_CHARS[Math.floor(pixel / 25)];
+    }
+    return ascii;
+}
 
-# convert pixels to a string of ASCII characters
-def pixels_to_ascii(image):
-    pixels = image.getdata()
-    characters = "".join([ASCII_CHARS[pixel//25] for pixel in pixels])
-    return(characters)
+// Generate ASCII from uploaded image
+function generateAscii() {
+    const fileInput = document.getElementById('imageInput');
+    const file = fileInput.files[0];
+    if (!file) return;
 
-def main(new_width=100):
-    # attempt to open image from user-input
-    path = input("enter a valid pathname to an image:\n")
-    try:
-        image = PIL.Image.open(path)
-    except:
-        print(path, "is not a valid pathname to an image.")
-        return  # Damit der Code nicht weiterläuft, wenn das Bild nicht geladen wird
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = resizeImage(img, 100);
+            const context = canvas.getContext('2d');
+            let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            imageData = grayify(imageData);
+            const asciiArt = pixelsToAscii(imageData);
 
-    # convert image to ASCII  
-    new_image_data = pixels_to_ascii(grayify(resize_image(image)))
+            // Format ASCII Art and display it
+            const newWidth = 100;
+            let formattedAscii = '';
+            for (let i = 0; i < asciiArt.length; i += newWidth) {
+                formattedAscii += asciiArt.slice(i, i + newWidth) + '\n';
+            }
 
-    # format
-    pixel_count = len(new_image_data)
-    ascii_image = "\n".join(new_image_data[i:(i+new_width)] for i in range(0, pixel_count, new_width))
-    
-    # print result
-    print(ascii_image)
-     
-    # save result to "ascii_image.txt"
-    with open("ascii_image.txt", "w") as f:
-        f.write(ascii_image)
-
-# Start the program
-if __name__ == "__main__":
-    main()
+            // Display ASCII art on the page
+            document.getElementById('outputArea').textContent = formattedAscii;
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
