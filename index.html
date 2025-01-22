@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ascii generator 3000</title>
-    <link rel="stylesheet" href="style.css">  <!-- Dein CSS -->
+    <title>ASCII Generator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>ascii generator 3000</h1>
-        <input type="file" id="imageInput" accept="image/*">
-        <button onclick="generateAscii()">generate</button>
-
-        <h2>hello, welcome to my ascii generator</h2>
-        <pre id="outputArea"></pre>
+        <h1 class="title">ASCII Art Generator</h1>
+        <div class="upload-container">
+            <form id="image-form">
+                <input type="file" id="image-upload" accept="image/*">
+                <button type="submit" id="generate-button">Generate ASCII Art</button>
+            </form>
+        </div>
+        <pre id="ascii-output"></pre>
     </div>
 
-    <script src="script.js"></script>  <!-- Dein JS -->
+    <script src="script.js"></script>
 </body>
 </html>
