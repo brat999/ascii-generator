@@ -1,0 +1,100 @@
+html, body {                                                                /* html & body properties */   
+    margin: 0;                     
+    padding: 0;                     
+    height: 100%;   /* body nimmt die gesammte höhe ein */
+    width: 100%;    /* body nimmt die gesammte breite ein */
+    user-select: text;
+    background-color: var(--black);
+    color: var(--white);    /* schriftfarbe */
+    overflow-y: auto;   /* aktiviert vertikales scrollen nur bei bedarf */
+    overflow-x: hidden; /* verhindert horizontales scrollen */
+    max-width: none;
+}
+
+:root {                                                                     /* global variables (aka cutsom properties) */           
+    --black: #000000;
+    --white: #e8e8e8;
+    --grey: #8a8a8a;
+    --blue: #3300ff;
+    --font-size-pfeil: 3.3rem;
+    --font-size-titel: 2rem;
+    --font-size-untertitel: 1.5rem;
+    --font-size-lauftext: 1rem; /* 1rem = 16px, standart schriftgrösse in browsern */
+    --font-size-bildunterschrift: 0.8rem;
+}
+
+a {                                                                         /* links (aka anker tags) */
+    text-decoration: none;
+    color: var(--white);
+}
+
+img {                                                                       /* bilder */
+    max-width: 100%;
+    height: auto; /* Beibehaltung des Seitenverhältnisses */
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}   
+
+video, iframe {                                                            /* videos */
+    max-width: 100%; /* verhindert, dass das video breiter als der container wird */
+    max-height: 100%; /* verhindert, dass das video höher als 90% der bildschirmhöhe wird */
+    width: auto; /* stellt sicher, dass die proportionen beibehalten werden */
+    height: auto;
+}
+
+.figcaption {                                                                /* bildunterschrift */           
+    justify-content: left; /* verteilt inhalt links und rechts */
+    font-size: var(--font-size-bildunterschrift);
+    font-family: "AUTHENTIC Sans 90";
+    font-style: normal;
+    color: var(--white);
+    padding: 0px 0px 10px 0px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+@font-face {                                                                /* globale variables schriften */
+    font-family: 'JetBrains Mono regular';  /* name der schriftart */
+    src: url('JetBrainsMono-Regular.woff2') format('woff2');
+    font-weight: normal;    /* oder 'bold', falls es ein bold schnitt ist */
+    font-style: normal; /* oder 'italic', falls es ein kursiv schnitt ist */
+}
+
+@font-face {
+    font-family: 'AUTHENTIC Sans 90';   /* name der schriftart */
+    src: url('authentic-sans-90.woff2') format('woff2');
+    font-weight: normal;    /* oder 'bold', falls es ein bold schnitt ist */
+    font-style: normal;     /* oder 'italic', falls es ein kursiv schnitt ist */
+}
+@media (max-width: 768px) {
+    body {
+        width: 85%;
+        padding: 0; /* Reduziert überflüssige Abstände */
+    }
+
+    html, body {
+        font-size: 1rem; /* Kleinere Schriftgröße */
+    }
+}
+  
+::-webkit-scrollbar {                                                       /* transparente scrollbar */
+    width: 10px;
+    --background-scrollbar: transparent;    /* kein hintergrund */
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--background-scrollbar);    /* keine laufleiste */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--background-scrollbar);    /* Auch beim Hover nichts sichtbar */
+}
+
+::-webkit-scrollbar-corner {    /* weisses rechteck transparent machen */
+    background: var(--backgroun-scrollbar);     /* hintergrund entfernen */
+}
+
+::selection {                                                               /* farbe makierter text */
+    background-color: var(--blue);
+    color: var(--black);
+}
