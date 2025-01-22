@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <h1 class="title">ᕕ(︶‿︶)ᕗ ASCII Generator 3000 ໒(⊙ᴗ⊙)७✎▤</h1>
+
+        <!-- Datei Upload -->
         <div class="upload-container">
             <form id="image-form">
                 <input type="file" id="image-upload" accept="image/*">
@@ -17,20 +19,35 @@
                     <option value="png">.png</option>
                     <option value="jpg">.jpg</option>
                 </select>
-                <button type="submit" id="generate-button">Generate</button>
+                <button type="submit" id="generate-button">Generieren</button>
             </form>
         </div>
 
+        <!-- Live-Vorschau -->
         <div class="preview-container">
-            <h2>Live Preview</h2>
-            <div id="live-preview" class="live-preview-screen"></div>
+            <h2>Live Vorschau</h2>
+            <div id="live-preview" class="preview-box">
+                <pre>ASCII-Art erscheint hier</pre>
+            </div>
         </div>
 
-        <div id="download-link-container" style="display: none;">
-            <a id="download-link" href="#" download>Download ASCII Image</a>
+        <!-- Potentiometer -->
+        <div class="potentiometer-container">
+            <h3>Potentiometer</h3>
+            <div class="potentiometers">
+                <button class="potentiometer-button" id="potentiometer1">1</button>
+                <button class="potentiometer-button" id="potentiometer2">2</button>
+                <button class="potentiometer-button" id="potentiometer3">3</button>
+            </div>
         </div>
 
-        <pre id="ascii-output"></pre>
+        <!-- Download-Link -->
+        <div id="download-link-container">
+            <!-- Der Download-Link wird hier eingefügt -->
+        </div>
+
+        <!-- ASCII Output (für die Live-Vorschau und das Generierte Bild) -->
+        <pre id="ascii-output" style="display:none;"></pre>
     </div>
 
     <script src="script.js"></script>
