@@ -1,4 +1,11 @@
-/* Allgemeine Container-Stile */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
 .container {
     width: 80%;
     margin: 0 auto;
@@ -7,119 +14,59 @@
 
 .title {
     font-size: 2rem;
-    margin: 20px;
-    color: #4A90E2;
-}
-
-/* Stil für den Datei-Upload-Bereich */
-.upload-container {
-    margin-bottom: 30px;
-}
-
-.upload-container input[type="file"] {
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-.upload-container select, .upload-container button {
-    padding: 10px;
-    font-size: 1rem;
-    margin: 10px;
-    border-radius: 5px;
-}
-
-/* Stil für die Live-Vorschau */
-.preview-container {
-    margin-bottom: 30px;
-}
-
-.preview-container h2 {
-    font-size: 1.5rem;
-    color: #8A2BE2;
-}
-
-.preview-box {
-    width: 100%;
-    max-width: 600px;
-    height: 200px;
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    padding: 20px;
-    font-family: monospace;
-    font-size: 12px;
-    white-space: pre-wrap;
-    overflow-y: scroll;
-    margin: 0 auto;
-}
-
-/* Potentiometer-Buttons */
-.potentiometer-container {
-    margin-bottom: 30px;
-}
-
-.potentiometers {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.potentiometer-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.potentiometer-button:hover {
-    background-color: #333;
-}
-
-/* Potentiometer Farbverlauf */
-#potentiometer1 {
-    background: linear-gradient(to right, #FF6F61, #FFB88C);
-}
-
-#potentiometer2 {
-    background: linear-gradient(to right, #FFD700, #FF6347);
-}
-
-#potentiometer3 {
-    background: linear-gradient(to right, #7B68EE, #8A2BE2);
-}
-
-/* Download-Link und Button */
-#download-link-container {
     margin-top: 20px;
 }
 
-#download-button {
-    font-size: 1.2rem;
-    color: #4A90E2;
-    background-color: #f4f4f4;
-    border: 1px solid #ddd;
-    padding: 10px 20px;
+.upload-container {
+    margin: 20px 0;
+}
+
+#image-upload {
+    margin-right: 10px;
+}
+
+#live-preview-box {
+    width: 100%;
+    height: 300px;
+    margin: 20px 0;
+    border: 2px solid #ccc;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#live-preview {
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+#potentiometer-controls {
+    margin: 20px 0;
+}
+
+button {
+    background: linear-gradient(45deg, #ff7b7b, #ffbb7b, #ff7bff);
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    margin: 0 5px;
     cursor: pointer;
-    border-radius: 5px;
-    display: inline-block;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #ffbb7b, #ff7b7b, #ff7bff);
+}
+
+#download-button {
+    display: none;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
     text-decoration: none;
+    border-radius: 5px;
 }
 
 #download-button:hover {
-    background-color: #e0e0e0;
-}
-
-/* Entfernen des Rahmens um den Body (z.B. Blue Outline) */
-input, button, select {
-    outline: none;
-}
-
-input:focus, button:focus, select:focus {
-    outline: none;
+    background-color: #45a049;
 }
